@@ -127,7 +127,6 @@ func Solve(src io.Reader) (answer string, err error) {
 }
 
 func init() {
-	// make sure "os" and "fmt" packages are present for submission script
+	// make sure "os" package is present for submission script
 	_ = os.DevNull
-	_ = fmt.Sprint("")
 }
