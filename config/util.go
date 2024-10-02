@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"gopkg.in/yaml.v3"
+	yaml "gopkg.in/yaml.v3"
 )
 
 // NewConfigFromYaml reads a YAML file and unmarshals it into a Config struct.
