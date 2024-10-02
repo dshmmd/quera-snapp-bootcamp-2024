@@ -29,3 +29,6 @@ config.yaml
 
 # binaries
 bin/*
+
+# tmp directory
+tmp/
