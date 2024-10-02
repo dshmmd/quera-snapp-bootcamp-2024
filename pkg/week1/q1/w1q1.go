@@ -1,9 +1,10 @@
-package q1
+package w1q1
 
 import (
 	"bufio"
 	"fmt"
 	"io"
+	"os"
 	"regexp"
 	"strconv"
 )
@@ -125,11 +126,8 @@ func Solve(src io.Reader) (answer string, err error) {
 	return extractCoordinates(locationMap, order), nil
 }
 
-//func main() {
-//	ans, err := Solve(os.Stdin)
-//	if err != nil {
-//		panic(err)
-//	}
-//
-//	fmt.Print(ans)
-//}
+func init() {
+	// make sure "os" and "fmt" packages are present for submission script
+	_ = os.DevNull
+	_ = fmt.Sprint("")
+}

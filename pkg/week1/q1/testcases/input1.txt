@@ -1,0 +1,2 @@
+start x=1 y=1
+hospital from start x=-1 y=+2

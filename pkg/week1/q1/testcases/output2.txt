@@ -1,0 +1,2 @@
+office x=4 y=2
+hospital x=0 y=3
