@@ -5,6 +5,7 @@ app-linux:
 	GOOS=linux GOARCH=amd64 go build -o bin/app-linux-amd64 cmd/app/main.go
 
 test:
+	rm tmp/*
 	go test ./...
 
 submission:

@@ -6,6 +6,7 @@ go_files=$(find ./pkg -type f -name "*.go" ! -name "*_test.go")
 for input_file in $go_files; do
   # Extract the filename from the path
   filename=$(basename "$input_file")
+  base_filename="${filename%.go}"
 
   # Define the destination path in /tmp
   destination="./tmp/submission-${filename}"
@@ -31,5 +32,13 @@ func main() {
   fmt.Print(ans)
 }
 EOF
+
+  # Change the package name to "main"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+      sed -i '' "s/Solve/Solve_${base_filename}/" "$destination"
+  else
+      sed -i "s/Solve/Solve_${base_filename}/" "$destination"
+  fi
+
   echo "File copied and modified at: $destination"
 done
