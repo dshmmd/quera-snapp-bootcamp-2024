@@ -6,3 +6,6 @@ app-linux:
 
 test:
 	go test ./...
+
+submission:
+	bash scripts/generate-submission-file.sh
