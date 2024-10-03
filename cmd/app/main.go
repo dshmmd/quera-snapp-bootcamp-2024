@@ -12,14 +12,14 @@ import (
 
 func main() {
 	// Define the config flag using pflag
-	configPath := pflag.StringP("config", "c", "/etc/bootcamp-2024-tester-config.yaml", "Path to the configuration YAML file")
+	configPath := pflag.StringP("config", "c", "", "Path to the configuration YAML file")
 
 	// Parse the command-line flags
 	pflag.Parse()
 
 	// Check if the config path is provided
 	if *configPath == "" {
-		log.Fatalln("Configuration file path is required. Use -config or -c to specify it.")
+		log.Fatalln("configuration file path is required. Use -config or -c to specify it.")
 	}
 
 	// Load the configuration from the YAML file
