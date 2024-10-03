@@ -9,7 +9,8 @@ for input_file in $go_files; do
   base_filename="${filename%.go}"
 
   # Define the destination path in /tmp
-  destination="./tmp/submission-${filename}"
+  mkdir "./tmp/${base_filename}"
+  destination="./tmp/${base_filename}/submission-${filename}"
 
   # Copy the original .go file to /tmp with the new name
   cp "$input_file" "$destination"

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/dshmmd/quera-snapp-bootcamp-2024/internal/resolver"
 	"io"
+	"log"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -24,7 +25,10 @@ type TestCase struct {
 }
 
 func RunTester(t *testing.T, Solve resolver.Resolver, tests []TestCase) {
+	log.Println("SLAAMAMAMMMAMMAMMAMMMMAMAMMA")
+	log.Println(len(tests))
 	for _, tc := range tests {
+		log.Println(tc.Input)
 		t.Run(tc.Name, func(t *testing.T) {
 			// Call the Solve function
 			answer, err := Solve(tc.Input)

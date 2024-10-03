@@ -1,0 +1,1 @@
+shirt,shirt,pants,pants,jacket,jacket,shoes,hoody

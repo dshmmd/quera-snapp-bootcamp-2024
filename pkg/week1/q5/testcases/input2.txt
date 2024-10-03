@@ -1,0 +1,10 @@
+3
+burger king 25
+pizza hut 30
+taco bell 20
+4
+burger king 12:00 12:45 Alice
+Bob 13:40 13:10 pizza hut
+taco bell 11:50 12:30 Charlie
+Diana 14:35 14:00 burger king
+overlap
