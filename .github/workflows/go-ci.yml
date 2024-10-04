@@ -94,14 +94,10 @@ jobs:
           touch ~/.ssh/known_hosts
           ssh-keygen -R ${{ secrets.SERVER_IP }} || true
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-      #          mkdir -p ~/.ssh
-      #          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #          chmod 600 ~/.ssh/id_rsa
-      #          ssh-keygen -R ${{ secrets.SERVER_IP }}
-      #          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
       - name: List all files in the working directory (before sync)
         run: |
-          echo "Listing files in current directory:"
+          echo "Listing files in current directory: $PWD"
           ls -R .
 
       - name: Sync repository files to the server
