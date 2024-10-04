@@ -1,4 +1,4 @@
-name: Go CI
+name: Go CI-CD Pipeline
 
 on:
   push:
@@ -20,15 +20,13 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.22.3' # Specify the version of Go you want to use
+          go-version: '1.22.3'
 
       - name: Install Dependencies
-        run: |
-          go mod download
+        run: go mod download
 
       - name: Run Tests
-        run: |
-          go test ./... -v
+        run: go test ./... -v
 
   lint:
     name: Run Go Lint
@@ -48,22 +46,21 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.61.0
 
       - name: Run GolangCI-Lint
-        run: |
-          golangci-lint run ./...
+        run: golangci-lint run ./...
 
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.22.3'  # Use your project's Go version
+          go-version: '1.22.3'
 
-      - name: Run tests
+      - name: Run Tests
         run: go test ./...
 
       - name: Build for Linux
@@ -88,11 +85,12 @@ jobs:
       - name: Install SSH client
         run: sudo apt-get update && sudo apt-get install -y ssh
 
-      - name: Add SSH key
+      - name: Add SSH key and configure known hosts
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keygen -R ${{ secrets.SERVER_IP }}
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Sync repository files to the server
@@ -106,7 +104,8 @@ jobs:
       - name: Sync systemd service file
         run: |
           rsync -avz ./deployment/systemd/check-tc.service root@${{ secrets.SERVER_IP }}:/etc/systemd/system/check-tc.service
+          ssh root@${{ secrets.SERVER_IP }} "chmod 644 /etc/systemd/system/check-tc.service"
 
-      - name: Restart the systemd service
+      - name: Restart and enable the systemd service
         run: |
-          ssh root@${{ secrets.SERVER_IP }} "systemctl daemon-reload && systemctl restart check-tc.service && systemctl status check-tc.service"
+          ssh root@${{ secrets.SERVER_IP }} "systemctl daemon-reload && systemctl enable check-tc.service && systemctl restart check-tc.service && systemctl status check-tc.service"
