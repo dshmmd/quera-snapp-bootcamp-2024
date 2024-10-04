@@ -122,7 +122,7 @@ jobs:
       - name: Upload deployment directory to the server
         run: |
           echo "Uploading deployment directory to the server..."
-          scp ./check-tc.service root@${{ secrets.SERVER_IP }}:/etc/systemd/system/check-tc.service
+          scp ./check-tc.service root@${{ secrets.SERVER_IP }}:/opt/check-tc/deployment/check-tc.service
 
       - name: Set permissions for binary
         run: |
@@ -130,7 +130,7 @@ jobs:
 
       - name: Set permissions for deployment file
         run: |
-          ssh root@${{ secrets.SERVER_IP }} "chmod 644 /etc/systemd/system/check-tc.service"
+          ssh root@${{ secrets.SERVER_IP }} "chmod 644 /opt/check-tc/deployment/check-tc.service"
 
       - name: Restart and enable the systemd service
         run: |
