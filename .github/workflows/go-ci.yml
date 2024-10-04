@@ -114,6 +114,10 @@ jobs:
           echo "Listing files in current directory: $PWD"
           ls -R .    
 
+      - name: Stop the service before uploading new version
+        run: |
+          ssh root@${{ secrets.SERVER_IP }} "systemctl stop check-tc.service"
+
       - name: Upload binary file to the server
         run: |
           echo "Uploading app-linux binary to the server..."
