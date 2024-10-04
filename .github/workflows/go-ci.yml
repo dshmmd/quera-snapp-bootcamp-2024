@@ -90,25 +90,14 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          # Create an empty known_hosts file if it does not exist
           touch ~/.ssh/known_hosts
           ssh-keygen -R ${{ secrets.SERVER_IP }} || true
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: List all files in the working directory (before sync)
-        run: |
-          echo "Listing files in current directory: $PWD"
-          ls -R .
-
       - name: Sync repository files to the server
         run: |
           echo "Syncing files to the server..."
-          rsync -avz --progress --verbose --delete --exclude '.git' --exclude 'node_modules' ./* root@${{ secrets.SERVER_IP }}:/opt/check-tc/
-
-      - name: Verify files on the server
-        run: |
-          echo "Verifying files on the server..."
-          ssh root@${{ secrets.SERVER_IP }} "ls -R /opt/check-tc"
+          rsync -avz --exclude '.git' --exclude 'node_modules' --exclude 'bin' ./ root@${{ secrets.SERVER_IP }}:/opt/check-tc/
 
       - name: Run make command on the server
         run: |
