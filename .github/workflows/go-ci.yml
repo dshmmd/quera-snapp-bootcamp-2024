@@ -103,7 +103,7 @@ jobs:
       - name: Sync repository files to the server
         run: |
           echo "Syncing files to the server..."
-          rsync -avz --progress --verbose --delete --exclude '.git' --exclude 'node_modules' ${{ github.workspace }}/ root@${{ secrets.SERVER_IP }}:/opt/check-tc/
+          rsync -avz --progress --verbose --delete --exclude '.git' --exclude 'node_modules' ./* root@${{ secrets.SERVER_IP }}:/opt/check-tc/
 
       - name: Verify files on the server
         run: |
