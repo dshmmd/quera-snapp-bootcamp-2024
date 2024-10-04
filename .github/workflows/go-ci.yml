@@ -94,14 +94,23 @@ jobs:
           ssh-keygen -R ${{ secrets.SERVER_IP }} || true
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Sync repository files to the server
+      - name: Create target directory on the server
         run: |
-          echo "Syncing files to the server..."
-          rsync -avz --exclude '.git' --exclude 'node_modules' --exclude 'bin' ./ root@${{ secrets.SERVER_IP }}:/opt/check-tc/
+          ssh root@${{ secrets.SERVER_IP }} "mkdir -p /opt/check-tc/bin /opt/check-tc/deployment"
 
-      - name: Run make command on the server
+      - name: Upload binary file to the server
         run: |
-          ssh root@${{ secrets.SERVER_IP }} "cd /opt/check-tc && make app-linux"
+          echo "Uploading app-linux binary to the server..."
+          scp ./app-linux root@${{ secrets.SERVER_IP }}:/opt/check-tc/bin/app-linux-amd64
+
+      - name: Upload deployment directory to the server
+        run: |
+          echo "Uploading deployment directory to the server..."
+          rsync -avz ./deployment/ root@${{ secrets.SERVER_IP }}:/opt/check-tc/deployment/
+
+      - name: Set permissions for binary
+        run: |
+          ssh root@${{ secrets.SERVER_IP }} "chmod +x /opt/check-tc/bin/app-linux-amd64"
 
       - name: Sync systemd service file
         run: |
