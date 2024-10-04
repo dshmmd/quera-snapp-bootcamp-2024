@@ -1,0 +1,16 @@
+[Unit]
+Description=Check-TC Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/check-tc/bin/app-linux-amd64 -c /etc/check-tc/config/c.yaml
+Restart=always
+RestartSec=5
+User=nobody
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+EnvironmentFile=-/etc/sysconfig/check-tc
+
+[Install]
+WantedBy=multi-user.target
