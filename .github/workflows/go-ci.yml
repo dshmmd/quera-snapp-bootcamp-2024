@@ -90,8 +90,15 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keygen -R ${{ secrets.SERVER_IP }}
+          # Create an empty known_hosts file if it does not exist
+          touch ~/.ssh/known_hosts
+          ssh-keygen -R ${{ secrets.SERVER_IP }} || true
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      #          mkdir -p ~/.ssh
+      #          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #          chmod 600 ~/.ssh/id_rsa
+      #          ssh-keygen -R ${{ secrets.SERVER_IP }}
+      #          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Sync repository files to the server
         run: |
