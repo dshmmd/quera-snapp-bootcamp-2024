@@ -99,10 +99,20 @@ jobs:
       #          chmod 600 ~/.ssh/id_rsa
       #          ssh-keygen -R ${{ secrets.SERVER_IP }}
       #          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      - name: List all files in the working directory (before sync)
+        run: |
+          echo "Listing files in current directory:"
+          ls -R .
 
       - name: Sync repository files to the server
         run: |
-          rsync -avz --delete --exclude '.git' --exclude 'node_modules' ./ root@${{ secrets.SERVER_IP }}:/opt/check-tc/
+          echo "Syncing files to the server..."
+          rsync -avz --progress --verbose --delete --exclude '.git' --exclude 'node_modules' ${{ github.workspace }}/ root@${{ secrets.SERVER_IP }}:/opt/check-tc/
+
+      - name: Verify files on the server
+        run: |
+          echo "Verifying files on the server..."
+          ssh root@${{ secrets.SERVER_IP }} "ls -R /opt/check-tc"
 
       - name: Run make command on the server
         run: |
